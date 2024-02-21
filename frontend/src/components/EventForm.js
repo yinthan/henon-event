@@ -12,8 +12,8 @@ const EventForm = ({ onSaveEvent, onCancelEdit, editEventData }) => {
         if (editEventData) {
             setTitle(editEventData.title);
             setType(editEventData.type);
-            setStartDate(editEventData.startDate);
-            setEndDate(editEventData.endDate);
+            setStartDate(editEventData.startDate.split('T')[0]); // Remove time part
+            setEndDate(editEventData.endDate.split('T')[0]);     // Remove time part
             setIsEditing(true);
         } else {
             resetForm();
@@ -25,7 +25,7 @@ const EventForm = ({ onSaveEvent, onCancelEdit, editEventData }) => {
         const eventData = { title, type, startDate, endDate };
 
         // Pass the event id if we are in editing mode
-        onSaveEvent(eventData, editEventData ? editEventData.id : null);
+        onSaveEvent(eventData, editEventData ? editEventData._id : null);
 
         // Reset form
         resetForm();
@@ -37,6 +37,7 @@ const EventForm = ({ onSaveEvent, onCancelEdit, editEventData }) => {
         setStartDate('');
         setEndDate('');
         setIsEditing(false);
+        onCancelEdit();
     };
 
     const handleCancel = () => {

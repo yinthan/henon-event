@@ -12,24 +12,26 @@ const EventTimeline = ({ events }) => {
             const items = new DataSet();
 
             events.forEach((event, index) => {
-                // Subtract seven days from the start and end dates to correct the offset
-                const startDate = new Date(new Date(event.startDate + 'T00:00:00Z').getTime() - (28 * 24 * 60 * 60 * 1000));
-                const endDate = new Date(new Date(event.endDate + 'T00:00:00Z').getTime() - (27.5 * 24 * 60 * 60 * 1000));
+                const startDateTime = new Date(event.startDate).getTime() - (28 * 24 * 60 * 60 * 1000);
+                const endDateTime = new Date(event.endDate).getTime() - (27.5 * 24 * 60 * 60 * 1000);
+                if (!isNaN(startDateTime) && !isNaN(endDateTime)) {
+                    const startDate = new Date(startDateTime);
+                    const endDate = new Date(endDateTime);
 
+                    groups.add({
+                        id: index,
+                        content: event.title,
+                    });
 
-                groups.add({
-                    id: index,
-                    content: event.title,
-                });
-
-                items.add({
-                    id: event.id,
-                    group: index,
-                    start: startDate,
-                    end: endDate,
-                    type: 'range',
-                    className: `type-${event.type.replace(/\s/g, '-').toLowerCase()}`,
-                });
+                    items.add({
+                        id: event._id,
+                        group: index,
+                        start: startDate,
+                        end: endDate,
+                        type: 'range',
+                        className: `type-${event.type ? event.type.replace(/\s/g, '-').toLowerCase() : ''}`,
+                    });
+                }
             });
 
             const options = {
@@ -63,3 +65,4 @@ const EventTimeline = ({ events }) => {
 };
 
 export default EventTimeline;
+

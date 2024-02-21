@@ -12,16 +12,14 @@ router.get('/', async (req, res) => {
 });
 
 // Add a new event
-router.post('/add', async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, type, startDate, endDate } = req.body;
-
     const newEvent = new Event({
         title,
         type,
         startDate,
         endDate,
     });
-
     try {
         await newEvent.save();
         res.json('Event added!');
@@ -31,7 +29,7 @@ router.post('/add', async (req, res) => {
 });
 
 // Update an event by id
-router.put('/events/:id', async (req, res) => {
+router.route('/:id').put(async (req, res) => {
     try {
         const { title, type, startDate, endDate } = req.body;
         const updatedEvent = await Event.findByIdAndUpdate(
@@ -49,7 +47,7 @@ router.put('/events/:id', async (req, res) => {
 });
 
 // Delete an event
-router.delete('/:id', async (req, res) => {
+router.route('/:id').delete(async (req, res) => {
     try {
         await Event.findByIdAndDelete(req.params.id);
         res.json('Event deleted.');

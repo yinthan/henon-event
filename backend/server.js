@@ -14,11 +14,11 @@ app.use(express.json());
 const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, {
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true
 })
     .then(() => console.log('MongoDB connection established'))
     .catch(err => console.error('MongoDB connection error:', err));
+
 
 // Routes
 const eventsRouter = require('./routes/events');

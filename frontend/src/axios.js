@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Use environment variable or default to localhost
+const baseURL = 'http://localhost:5001';
+
 const instance = axios.create({
-    baseURL: 'http://localhost:5001' // Use your backend server URL here
+    baseURL: baseURL
 });
 
 export default instance;
